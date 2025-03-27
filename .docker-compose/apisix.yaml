@@ -1,0 +1,17 @@
+apisix:
+  node_listen: 9080
+
+routes:
+  - id: "route"
+    uri: "/*"
+    plugins:
+      ext-plugin-pre-req:
+        conf:
+          - name: "oidc"
+            value: |
+              key: value
+    upstream:
+      nodes:
+        "httpbin.org:80": 1
+      type: roundrobin
+#END

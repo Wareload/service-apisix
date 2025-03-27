@@ -1,0 +1,23 @@
+services:
+  keycloak:
+    image: keycloak/keycloak:26.1.4
+    environment:
+      KC_CACHE: local
+      KC_HTTP_ENABLED: true
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_STRICT: false
+    ports:
+      - "8080:8080"
+    entrypoint: /opt/keycloak/bin/kc.sh start --keycloak-realm
+    volumes:
+      - ./.docker-compose/keycloak:/opt/keycloak/data/keycloak
+  apisix:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./.docker-compose/apisix.yaml:/usr/local/apisix/conf/apisix.yaml
+    network_mode: host
+    environment:
+      APISIX_STAND_ALONE: true

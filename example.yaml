@@ -1,0 +1,26 @@
+auth:
+  client_id: client-id
+  client_secret: client-secret
+  scopes: openid profile email
+  leeway: 15
+url_paths:
+  base_url: http://localhost:3000
+  login_path: /login
+  callback_path: /callback
+  post_login_url: /post-login
+  userinfo_path: /userinfo
+  logout_path: /logout
+  post_logout_url: /post-logout
+well_known:
+  issuer: my-issuer
+  authorization_endpoint: http://localhost:8080/auth
+  token_endpoint: http://localhost:8080/token
+  userinfo_endpoint: http://localhost:8080/userinfo
+  revocation_endpoint: http://localhost:8080/revoke
+cookie:
+  name: auth
+  path: /
+  secure: true
+  http_only: true
+  same_site: lax
+  secret: FOhGpqouMhuYQfSySIPQEKRcqnwBeF
