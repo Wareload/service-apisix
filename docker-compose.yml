@@ -9,7 +9,7 @@ services:
       KC_HOSTNAME_STRICT: false
     ports:
       - "8080:8080"
-    entrypoint: /opt/keycloak/bin/kc.sh start --keycloak-realm
+    entrypoint: /opt/keycloak/bin/kc.sh start --import-realm
     volumes:
       - ./.docker-compose/keycloak:/opt/keycloak/data/keycloak
   apisix:

@@ -1,6 +1,9 @@
 package config
 
-import "github.com/apache/apisix-go-plugin-runner/pkg/log"
+import (
+	"github.com/apache/apisix-go-plugin-runner/pkg/log"
+	"golang.org/x/oauth2"
+)
 
 type Configuration struct {
 	Auth      Auth      `yaml:"auth"`
@@ -8,6 +11,7 @@ type Configuration struct {
 	WellKnown WellKnown `yaml:"well_known"`
 	Cookie    Cookie    `yaml:"cookie"`
 	Invalid   bool
+	OAuth     *oauth2.Config
 }
 
 func (c *Configuration) Validate() {

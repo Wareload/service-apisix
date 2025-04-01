@@ -12,6 +12,7 @@ type Cookie struct {
 	HttpOnly bool   `yaml:"http_only"`
 	SameSite string `yaml:"same_site"`
 	Secret   string `yaml:"secret"`
+	Expiring bool   `yaml:"expiring"`
 }
 
 func (c *Cookie) isValid() bool {
