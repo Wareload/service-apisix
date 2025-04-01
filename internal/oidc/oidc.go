@@ -52,13 +52,13 @@ func (s Oidc) ParseConf(in []byte) (interface{}, error) {
 		log.Errorf("config is invalid")
 		return conf, nil
 	}
-	return s, nil
+	return conf, nil
 }
 
 func (s Oidc) RequestFilter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
 	configuration, ok := conf.(config.Configuration)
 	if !ok || configuration.Invalid {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		http.Error(w, "Configuration Error", http.StatusInternalServerError)
 		return
 	}
 	switch string(r.Path()) {

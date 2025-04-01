@@ -89,7 +89,7 @@ func RemovePluginCookiesFromRequestHeader(r pkgHTTP.Request, config config.Confi
 		}
 		cookieName := parts[0]
 		_, exists := possibleCookies[cookieName]
-		if exists {
+		if !exists {
 			resultCookies = append(resultCookies, cookie)
 		}
 	}

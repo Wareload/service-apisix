@@ -11,7 +11,7 @@ services:
       - "8080:8080"
     entrypoint: /opt/keycloak/bin/kc.sh start --import-realm
     volumes:
-      - ./.docker-compose/keycloak:/opt/keycloak/data/keycloak
+      - ./.docker-compose/keycloak:/opt/keycloak/data/import
   apisix:
     build:
       context: .

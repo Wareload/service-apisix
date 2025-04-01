@@ -8,8 +8,33 @@ routes:
       ext-plugin-pre-req:
         conf:
           - name: "oidc"
-            value: |
-              key: value
+            value: |-
+              auth:
+                client_id: apisix
+                client_secret: GVGy17pNqfSEhtBkLivLVlEF6k2VXT3V
+                scopes: openid
+                leeway: 15
+              url_paths:
+                base_url: http://localhost:9080
+                login_path: /login
+                callback_path: /callback
+                post_login_url: /post-login
+                userinfo_path: /userinfo
+                logout_path: /logout
+                post_logout_url: /post-logout
+              well_known:
+                issuer: http://localhost:8080/realms/test
+                authorization_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/auth
+                token_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/token
+                userinfo_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/userinfo
+                revocation_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/revoke
+              cookie:
+                name: auth
+                path: /
+                secure: true
+                http_only: true
+                same_site: lax
+                secret: mysecurefixedkey1234567890123456
     upstream:
       nodes:
         "httpbin.org:80": 1

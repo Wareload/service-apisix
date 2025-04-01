@@ -20,5 +20,5 @@ func HandleLogout(config config.Configuration, w http.ResponseWriter, r pkgHTTP.
 		return
 	}
 	_ = oidc.RevokeTokens(tokens.RefreshToken, config)
-	onRedirect(w, config.UrlPaths.PostLoginUrl)
+	onRedirect(w, config.UrlPaths.PostLogoutUrl)
 }
