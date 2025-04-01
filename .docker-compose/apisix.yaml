@@ -35,6 +35,7 @@ routes:
                 http_only: true
                 same_site: lax
                 secret: mysecurefixedkey1234567890123456
+                expiring: true
     upstream:
       nodes:
         "httpbin.org:80": 1

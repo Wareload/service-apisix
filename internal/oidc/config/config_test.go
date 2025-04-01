@@ -35,7 +35,7 @@ func TestValidConfiguration(t *testing.T) {
 			Secure:   true,
 			HttpOnly: true,
 			SameSite: "lax",
-			Secret:   "FOhGpqouMhuYQfSySIPQEKRcqnwBeF",
+			Secret:   "FOhGpqouMhuYQfSySIPQEKRfdcqnwBeF",
 		},
 		Invalid: false,
 	}
