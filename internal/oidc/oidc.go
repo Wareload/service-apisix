@@ -1,13 +1,16 @@
 package oidc
 
 import (
+	"fmt"
 	"github.com/Wareload/service-apisix/internal/oidc/config"
 	"github.com/Wareload/service-apisix/internal/oidc/routes"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/apache/apisix-go-plugin-runner/pkg/plugin"
+	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v3"
 	"net/http"
+	"strings"
 )
 
 type Oidc struct {
@@ -34,17 +37,28 @@ func (s Oidc) ParseConf(in []byte) (interface{}, error) {
 		return conf, nil
 	}
 	conf.Validate()
+	conf.OAuth = &oauth2.Config{
+		ClientID:     conf.Auth.ClientId,
+		ClientSecret: conf.Auth.ClientSecret,
+		RedirectURL:  fmt.Sprintf("%s%s", conf.UrlPaths.BaseUrl, conf.UrlPaths.CallbackPath),
+		Scopes:       strings.Split(conf.Auth.Scopes, " "),
+		Endpoint: oauth2.Endpoint{
+			AuthURL:   conf.WellKnown.AuthorizationEndpoint,
+			TokenURL:  conf.WellKnown.TokenEndpoint,
+			AuthStyle: oauth2.AuthStyleInParams,
+		},
+	}
 	if conf.Invalid {
 		log.Errorf("config is invalid")
 		return conf, nil
 	}
-	return s, nil
+	return conf, nil
 }
 
 func (s Oidc) RequestFilter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
 	configuration, ok := conf.(config.Configuration)
 	if !ok || configuration.Invalid {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		http.Error(w, "Configuration Error", http.StatusInternalServerError)
 		return
 	}
 	switch string(r.Path()) {

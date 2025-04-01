@@ -12,6 +12,7 @@ type Cookie struct {
 	HttpOnly bool   `yaml:"http_only"`
 	SameSite string `yaml:"same_site"`
 	Secret   string `yaml:"secret"`
+	Expiring bool   `yaml:"expiring"`
 }
 
 func (c *Cookie) isValid() bool {
@@ -24,8 +25,8 @@ func (c *Cookie) isValid() bool {
 	if !(c.SameSite != "lax" && c.SameSite != "strict" && c.SameSite != "none") {
 		c.SameSite = "lax"
 	}
-	if len(c.Secret) != 30 {
-		log.Errorf("cookie secret must be 30 chars long")
+	if len(c.Secret) != 32 {
+		log.Errorf("cookie secret must be 32 chars long")
 		return false
 	}
 	return true

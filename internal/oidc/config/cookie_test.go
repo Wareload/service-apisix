@@ -9,7 +9,7 @@ func TestValidCookie(t *testing.T) {
 		Secure:   false,
 		HttpOnly: true,
 		SameSite: "lax",
-		Secret:   "FOhGpqouMhuYQfSySIPQEKRcqnwBeF",
+		Secret:   "FOhGpqouMhuYQfSySIPQEKRcqjinwBeF",
 	}
 	if !cookie.isValid() {
 		t.Error("valid cookie is invalid")
@@ -33,7 +33,7 @@ func TestInvalidSecretCookie(t *testing.T) {
 func TestValidDefaultsCookie(t *testing.T) {
 	cookie := Cookie{
 		Path:   "/",
-		Secret: "FOhGpqouMhuYQfSySIPQEKRcqnwBea",
+		Secret: "FOhGpqouMhuYQfSySIsdPQEKRcqnwBea",
 	}
 	if !cookie.isValid() {
 		t.Error("valid cookie is invalid")
@@ -42,7 +42,7 @@ func TestValidDefaultsCookie(t *testing.T) {
 
 func TestValidMinimalCookie(t *testing.T) {
 	cookie := Cookie{
-		Secret: "FOhGpqouMhuYQfSySIPQEKRcqnwBea",
+		Secret: "FOhGpqouMhuYQfSySdsIPQEKRcqnwBea",
 	}
 	if !cookie.isValid() {
 		t.Error("valid cookie is invalid")
