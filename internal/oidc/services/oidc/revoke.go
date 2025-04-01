@@ -25,7 +25,7 @@ func RevokeTokens(refreshToken string, conf config.Configuration) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("failed to logout: %s", resp.Status)
+		return fmt.Errorf("failed to revoke tokens: %s", resp.Status)
 	}
 	return nil
 }
