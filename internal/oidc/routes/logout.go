@@ -13,8 +13,8 @@ func HandleLogout(config config.Configuration, w http.ResponseWriter, r pkgHTTP.
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	tokens, err := cookies.GetAuthAccessCookie()
-	cookies.DeleteCookies(w, config)
+	tokens, err := cookies.GetAuthAccessCookie(r, config)
+	cookies.DeleteCookies(r, w, config)
 	if err != nil {
 		onRedirect(w, config.UrlPaths.PostLogoutUrl)
 		return

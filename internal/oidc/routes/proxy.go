@@ -12,14 +12,14 @@ func HandleProxy(config config.Configuration, w http.ResponseWriter, r pkgHTTP.R
 	if r.Header().Get("Authorization") != "" {
 		return
 	} //skip requests with authorization header
-	tokens, err := cookies.GetAuthAccessCookie()
+	tokens, err := cookies.GetAuthAccessCookie(r, config)
 	if err != nil {
-		onUnauthorized(w, config)
+		onUnauthorized(r, w, config)
 		return
 	}
-	currentAccessToken, refreshed, err := updateTokensIfNeeded(w, config, tokens.AccessToken, tokens.RefreshToken, r.Context())
+	currentAccessToken, refreshed, err := updateTokensIfNeeded(r, w, config, tokens.AccessToken, tokens.RefreshToken, r.Context())
 	if err != nil {
-		onUnauthorized(w, config)
+		onUnauthorized(r, w, config)
 		return
 	}
 	if refreshed {

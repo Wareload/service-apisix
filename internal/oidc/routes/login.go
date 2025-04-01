@@ -9,7 +9,7 @@ import (
 )
 
 func HandleLogin(config config.Configuration, w http.ResponseWriter, r pkgHTTP.Request) {
-	cookies.DeleteCookies(w, config)
+	cookies.DeleteCookies(r, w, config)
 	if r.Method() != "GET" && r.Method() != "POST" {
 		onMethodNotAllowed(w)
 		return
@@ -19,7 +19,7 @@ func HandleLogin(config config.Configuration, w http.ResponseWriter, r pkgHTTP.R
 		onInternalServerError(w, err)
 		return
 	}
-	err = cookies.SetAuthFlowCookie(w, config, cookies.AuthFlowCookie{
+	err = cookies.SetAuthFlowCookie(r, w, config, cookies.AuthFlowCookie{
 		State: state,
 		Nonce: nonce,
 	})

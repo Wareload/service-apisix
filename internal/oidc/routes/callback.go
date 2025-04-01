@@ -17,13 +17,13 @@ func HandleCallback(config config.Configuration, w http.ResponseWriter, r pkgHTT
 	state := queryParams.Get("state")
 	iss := queryParams.Get("iss")
 	code := queryParams.Get("code")
-	flow, err := cookies.GetAuthFlowCookie()
+	flow, err := cookies.GetAuthFlowCookie(r, config)
 	if err != nil {
-		onUnauthorized(w, config)
+		onUnauthorized(r, w, config)
 		return
 	}
 	if state != flow.State || iss != config.WellKnown.Issuer {
-		onUnauthorized(w, config)
+		onUnauthorized(r, w, config)
 		return
 	}
 	accessToken, idToken, refreshToken, err := oidc.ExchangeCodeToTokens(config, code, r.Context())
@@ -32,10 +32,10 @@ func HandleCallback(config config.Configuration, w http.ResponseWriter, r pkgHTT
 		return
 	}
 	if !isNonceMatching(idToken, flow.Nonce) {
-		onUnauthorized(w, config)
+		onUnauthorized(r, w, config)
 		return
 	}
-	err = cookies.SetAuthAccessCookie(w, config, accessToken, refreshToken)
+	err = cookies.SetAuthAccessCookie(r, w, config, accessToken, refreshToken)
 	if err != nil {
 		onInternalServerError(w, err)
 		return

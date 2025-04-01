@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func updateTokensIfNeeded(w http.ResponseWriter, conf config.Configuration, accessToken, refreshToken string, ctx context.Context) (currentAccessToken string, refreshed bool, err error) {
+func updateTokensIfNeeded(r pkgHTTP.Request, w http.ResponseWriter, conf config.Configuration, accessToken, refreshToken string, ctx context.Context) (currentAccessToken string, refreshed bool, err error) {
 	accExpired, err := isTokenExpired(accessToken, conf.Auth.Leeway)
 	if err != nil {
 		return "", false, err
@@ -24,7 +24,7 @@ func updateTokensIfNeeded(w http.ResponseWriter, conf config.Configuration, acce
 	if err != nil {
 		return "", false, err
 	}
-	return currentToken, true, cookies.SetAuthAccessCookie(w, conf, currentToken, refreshToken)
+	return currentToken, true, cookies.SetAuthAccessCookie(r, w, conf, currentToken, refreshToken)
 }
 
 func isTokenExpired(raw string, leeway int) (bool, error) {
@@ -57,8 +57,8 @@ func isNonceMatching(idToken string, nonce string) bool {
 
 // status code helpers
 
-func onUnauthorized(w http.ResponseWriter, conf config.Configuration) {
-	cookies.DeleteCookies(w, conf)
+func onUnauthorized(r pkgHTTP.Request, w http.ResponseWriter, conf config.Configuration) {
+	cookies.DeleteCookies(r, w, conf)
 	w.WriteHeader(http.StatusUnauthorized)
 }
 
