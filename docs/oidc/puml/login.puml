@@ -1,0 +1,17 @@
+@startuml
+actor Browser
+participant APISIX
+participant Keycloak
+
+Browser -> APISIX: login request
+APISIX -> Browser: redirect to Keycloak login page incl. state and nonce
+Browser -> Keycloak: login request
+Keycloak -> Browser: login page
+Browser -> Keycloak: login with credentials
+Keycloak -> Browser: redirect to APISIX callback path with code
+Browser -> APISIX: callback request with code
+APISIX -> Keycloak: exchange code for tokens
+APISIX -> APISIX: validations
+APISIX -> Browser: redirects to post login path
+
+@enduml

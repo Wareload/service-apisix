@@ -1,0 +1,23 @@
+@startuml
+actor Browser
+participant APISIX
+participant Keycloak
+participant "Resource Server" as RS
+
+Browser -> APISIX: request to resource server
+
+alt Authorization header exists
+    APISIX -> RS: proxy request to resource server
+    RS -> APISIX:
+    APISIX -> Browser:
+else Authorization does not exists
+    APISIX -> APISIX : decrypt tokens & check if access token is expired
+    alt Access token is expired
+        APISIX -> Keycloak: exchange refresh token for tokens
+        Keycloak -> APISIX: return new tokens
+    end
+    APISIX -> RS: Proxy request authorization header
+    RS -> APISIX:
+    APISIX -> Browser:
+end
+@enduml

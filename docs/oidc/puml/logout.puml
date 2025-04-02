@@ -1,0 +1,15 @@
+@startuml
+actor Browser
+participant APISIX
+participant Keycloak
+
+
+Browser -> APISIX: logout request
+APISIX -> APISIX : decrypt tokens & check if refresh token is expired
+alt Refresh token valid
+    APISIX -> Keycloak: revoke tokens
+    Keycloak -> APISIX:
+end
+APISIX -> Browser: deletes cookies & redirect to Keycloak post logout page
+
+@enduml

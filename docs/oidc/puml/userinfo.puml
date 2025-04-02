@@ -1,0 +1,15 @@
+@startuml
+actor Browser
+participant APISIX
+participant Keycloak
+
+Browser -> APISIX: userinfo request
+APISIX -> APISIX : decrypt tokens & check if access token is expired
+alt Access token is expired
+    APISIX -> Keycloak: exchange refresh token for tokens
+    Keycloak -> APISIX: return new tokens
+end
+APISIX -> Keycloak: Proxy request to the userinfo endpoint
+Keycloak -> APISIX:
+APISIX -> Browser:
+@enduml

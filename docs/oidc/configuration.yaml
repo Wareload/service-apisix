@@ -1,0 +1,27 @@
+auth:
+  client_id: apisix # required
+  client_secret: GVGy17pNqfSEhtBkLivLVlEF6k2VXT3V # required
+  scopes: openid # defaults to openid
+  leeway: 15 # defaults to 0, buffer time to renew token before it expires
+url_paths:
+  base_url: http://localhost:9080 # required
+  login_path: /login # defaults to /login
+  callback_path: /callback # defaults to /callback
+  post_login_url: / # defaults to /
+  userinfo_path: /userinfo # defaults to /userinfo
+  logout_path: /logout # defaults to /logout
+  post_logout_url: / # defaults to /
+well_known:
+  issuer: http://localhost:8080/realms/test # required
+  authorization_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/auth # required, must be reachable from the browser as well
+  token_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/token # required, don't have to be reachable from the browser
+  userinfo_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/userinfo # required, don't have to be reachable from the browser
+  revocation_endpoint: http://localhost:8080/realms/test/protocol/openid-connect/revoke # required, don't have to be reachable from the browser
+cookie:
+  name: auth # defaults to auth
+  path: / # defaults to /
+  secure: true # defaults to true
+  http_only: true # defaults to true
+  same_site: lax # defaults to lax
+  secret: mysecurefixedkey1234567890123456 # required, must be 32 bytes long
+  expiring: true # defaults to false, if enabled, the cookie will be valid for 7 days, otherwise it is a session cookie
