@@ -19,6 +19,7 @@ func HandleLogout(config config.Configuration, w http.ResponseWriter, r pkgHTTP.
 		onRedirect(w, config.UrlPaths.PostLogoutUrl)
 		return
 	}
+	// ignore errors on logout
 	_ = oidc.RevokeTokens(tokens.RefreshToken, config)
 	onRedirect(w, config.UrlPaths.PostLogoutUrl)
 }

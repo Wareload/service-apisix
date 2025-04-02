@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-const maxCookieSize = 3800
+const maxCookieSize = 3800 // browser limit is 4000 bytes
 
 type AuthFlowCookie struct {
 	State string `json:"state"`
@@ -156,6 +156,8 @@ func setChunkedCookie(data []byte, r pkgHTTP.Request, w http.ResponseWriter, con
 			MaxAge:   maxAge,
 		})
 	}
+	// to improve? cheap way to delete cookies, even if they not exist
+	// could check first for existence
 	for i := numChunks; i <= 10; i++ {
 		deleteCookie(w, config, fmt.Sprintf("%s%d", config.Cookie.Name, i))
 	}

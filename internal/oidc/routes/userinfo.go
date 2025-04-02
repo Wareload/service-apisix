@@ -29,6 +29,7 @@ func HandleUserinfo(config config.Configuration, w http.ResponseWriter, r pkgHTT
 	}
 	response, err := oidc.GetUserInfo(currentAccessToken, config.WellKnown.UserinfoEndpoint)
 	if err != nil {
+		// do we need to add 502 in case of unreachable?
 		onInternalServerError(w, err)
 		return
 	}
