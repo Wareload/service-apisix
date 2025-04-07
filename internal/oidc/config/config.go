@@ -10,6 +10,7 @@ type Configuration struct {
 	UrlPaths  UrlPaths  `yaml:"url_paths"`
 	WellKnown WellKnown `yaml:"well_known"`
 	Cookie    Cookie    `yaml:"cookie"`
+	Features  Features  `yaml:"features"`
 	Invalid   bool
 	OAuth     *oauth2.Config
 }
