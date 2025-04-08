@@ -9,7 +9,7 @@ import (
 )
 
 func HandleProxy(config config.Configuration, w http.ResponseWriter, r pkgHTTP.Request) {
-	if r.Header().Get("Authorization") != "" {
+	if r.Header().Get("Authorization") != "" && config.Features.ByPassWithAuthHeader {
 		return
 	} //skip requests with authorization header
 	tokens, err := cookies.GetAuthAccessCookie(r, config)
